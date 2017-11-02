@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<canvas id="canvas" style="border: 1px solid #aaa;display:block;margin:50px auto"></canvas>
+<script src="http://libs.baidu.com/jquery/1.4.4/jquery.min.js"></script>
+<script src="js/requestAnimationFrame.js"></script>
+<script>
+    window.onload = function () {
+        var canvas = document.getElementById('canvas');
+        canvas.width = 1200;
+        canvas.height = 800;
+        var context = canvas.getContext('2d');
+//        animloop();
+//        text( context );
+
+        var arr = [];
+        for(var j = 0; j < 200;j++) {
+
+            var x = Math.random() * canvas.width, y = Math.random() * canvas.height - 300, a = 0;
+            arr.push({
+                x: x,
+                y: y,
+                a: a
+            });
+        }
+        var timer = setInterval(function () {
+            context.fillStyle = 'black';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            drawLand(context);
+
+
+            for(var j = 0;j < arr.length;j++) {
+                var r = 14;
+                if (r == 14) {
+                    r =  Math.random() * 4;
+                } else {
+                    r = 14;
+                }
+                drawStar(context, arr[j].x, arr[j].y, r, r / 2.0, arr[j].a);
+            }
+        }, 550);
+
+
+        /*var timer = setInterval(function () {
+            context.fillStyle = 'black';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            drawLand(context);
+            for(var j = 0; j < 200;j++) {
+                var arr = [];
+                var x = Math.random() * canvas.width, y = Math.random() * canvas.height - 300, a = 0, r = Math.random() * 4;
+                arr.push({
+                    x: x,
+                    y: y,
+                    a: a
+                });
+                if (r == Math.random() * 4 + 1) {
+                    r = Math.random() * 4;
+                } else {
+                    r = Math.random() * 4 + 1;
+                }
+                console.log(arr);
+                drawStar(context, arr[j].x, arr[j].y, r, r / 2.0, arr[j].a);
+            }
+
+        }, 550);*/
+//        function animloop() {
+//
+//            window.requestAnimationFrame(animloop);
+//            context.fillStyle = 'black';
+//            context.fillRect(0, 0, canvas.width, canvas.height);
+//            drawLand(context);
+//            if (r == 2) {
+//                r = 4;
+//            } else {
+//                r = 2;
+//            }
+//            drawStar(context, x, y, r, r / 2.0, a);
+//            console.log(r);
+//        }
+    };
+    //土地绘制
+    function drawLand(cxt) {
+        cxt.save();
+        cxt.beginPath();
+        cxt.moveTo(0, 600);
+        cxt.bezierCurveTo(540, 400, 600, 800, 1200, 600);
+        cxt.lineTo(1200, 800);
+        cxt.lineTo(0, 800);
+        cxt.closePath();
+        var landStyle = cxt.createLinearGradient(0, 800, 0, 0);
+        landStyle.addColorStop(0.0, '#030');
+        landStyle.addColorStop(1.0, "#580");
+        cxt.fillStyle = landStyle;
+        cxt.fill();
+        cxt.restore();
+    }
+    //星星绘制
+    function drawStar(cxt, x, y, outerR, innerR, rot, fillColor) {
+        cxt.save();
+        cxt.translate(x, y);
+        cxt.rotate(rot / 180 * Math.PI);
+        cxt.scale(outerR, outerR);
+        starPath(cxt);
+        cxt.fillStyle = fillColor || "#fff";
+        cxt.fill();
+        cxt.restore();
+    }
+    //画星星的方法
+    function starPath(cxt) {
+        cxt.beginPath();
+        for (var i = 0; i < 5; i++) {
+            cxt.lineTo(Math.cos((18 + i * 72) / 180 * Math.PI),
+                    -Math.sin((18 + i * 72) / 180 * Math.PI));
+            cxt.lineTo(Math.cos((54 + i * 72) / 180 * Math.PI) * 0.5,
+                    -Math.sin((54 + i * 72) / 180 * Math.PI) * 0.5);
+        }
+        cxt.closePath();
+    }
+    //    //文本绘制
+    //    function text( cxt ) {
+    //        cxt.font = "bold 40px Aril";
+    //        cxt.lineWidth = 3;
+    //        cxt.strokeStyle = "#058";
+    //        cxt.shadowColor = "grey";
+    //        cxt.shadowOffsetX = 10;
+    //        cxt.shadowOffsetY = 10;
+    //        cxt.shadowBlur = 5;
+    //        cxt.strokeText("❤", 100, 100);
+    //        cxt.strokeText("❤", 200, 300);
+    //        cxt.strokeText("❤", 500, 200);
+    //        cxt.strokeText("❤", 700, 100);
+    //        cxt.strokeText("❤", 800, 400);
+    //        cxt.strokeText("❤", 1100, 200);
+    //    }
+</script>
+</body>
+</html>
